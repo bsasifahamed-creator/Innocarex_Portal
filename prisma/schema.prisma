@@ -1,0 +1,109 @@
+// InnoCare X — core persistence for portal (users, quotes, policies, leads, documents, audit)
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum UserRole {
+  ADMIN
+  BROKER
+  TYPING_STAFF
+  OPS
+  AFFILIATE
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  role         UserRole @default(BROKER)
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  quotes    QuoteRequest[]
+  policies  Policy[]
+  documents DocumentAsset[]
+  audits    AuditLog[]
+}
+
+model QuoteRequest {
+  id        String   @id @default(cuid())
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  input     Json
+  output    Json
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([createdAt])
+}
+
+model Policy {
+  id            String   @id @default(cuid())
+  policyNumber  String   @unique
+  userId        String?
+  user          User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  status        String   @default("ACTIVE")
+  memberNameEn  String
+  memberNameAr  String?
+  emiratesId    String?
+  planId        String
+  planName      String
+  insurer       String
+  annualPremium Decimal  @db.Decimal(12, 2)
+  network       String?
+  tpa           String?
+  ecardPath     String
+  certPath      String
+  effectiveDate DateTime @db.Date
+  expiryDate    DateTime @db.Date
+  issuedAt      DateTime @default(now())
+  summary       Json?
+
+  @@index([userId])
+  @@index([issuedAt])
+}
+
+model ContactLead {
+  id         String   @id @default(cuid())
+  name       String
+  email      String
+  company    String
+  message    String
+  receivedAt DateTime @default(now())
+
+  @@index([receivedAt])
+}
+
+model DocumentAsset {
+  id           String   @id @default(cuid())
+  userId       String?
+  user         User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  documentType String
+  originalName String?
+  storagePath  String?
+  parseResult  Json?
+  createdAt    DateTime @default(now())
+
+  @@index([userId])
+  @@index([createdAt])
+}
+
+model AuditLog {
+  id         String   @id @default(cuid())
+  userId     String?
+  user       User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  action     String
+  entityType String
+  entityId   String?
+  metadata   Json?
+  createdAt  DateTime @default(now())
+
+  @@index([userId])
+  @@index([createdAt])
+}
