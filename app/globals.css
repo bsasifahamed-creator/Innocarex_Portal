@@ -39,3 +39,24 @@
   color: rgb(241 245 249);
   background-color: rgb(15 23 42);
 }
+
+/* Apply theme-consistent styling for every native select in app */
+select {
+  color: rgb(15 23 42);
+  background-color: rgb(255 255 255);
+}
+
+select option {
+  color: rgb(15 23 42);
+  background-color: rgb(255 255 255);
+}
+
+.dark select {
+  color: rgb(241 245 249);
+  background-color: rgb(15 23 42 / 0.35);
+}
+
+.dark select option {
+  color: rgb(241 245 249);
+  background-color: rgb(15 23 42);
+}

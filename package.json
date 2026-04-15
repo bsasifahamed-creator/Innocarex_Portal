@@ -18,15 +18,22 @@
     "seed": "tsx prisma/seed.ts"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.80.0",
     "@hookform/resolvers": "^5.2.2",
+    "@prisma/adapter-pg": "^7.7.0",
     "@prisma/client": "^7.5.0",
     "bcryptjs": "^3.0.3",
+    "canvas": "^3.2.2",
     "framer-motion": "^12.38.0",
     "i18n-iso-countries": "^7.14.0",
+    "ioredis": "^5.10.1",
     "jose": "^6.2.2",
+    "mrz": "^5.0.2",
     "next": "16.2.1",
     "pdf-lib": "^1.17.1",
     "pdf-parse": "^2.4.5",
+    "pdfjs-dist": "^5.5.207",
+    "pg": "^8.20.0",
     "react": "19.2.4",
     "react-dom": "19.2.4",
     "react-hook-form": "^7.72.0",
@@ -34,7 +41,10 @@
     "zod": "^4.3.6"
   },
   "devDependencies": {
+    "@types/bcryptjs": "^3.0.0",
     "@types/node": "^20",
+    "@types/pdf-parse": "^1.1.5",
+    "@types/pg": "^8.20.0",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "autoprefixer": "^10.4.27",
@@ -44,6 +54,7 @@
     "postcss": "^8.5.8",
     "prisma": "^7.5.0",
     "tailwindcss": "3",
+    "ts-node": "^10.9.2",
     "tsx": "^4.21.0",
     "typescript": "^5"
   }

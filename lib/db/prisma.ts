@@ -1,25 +1,27 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from "@prisma/client"
+import { PrismaPg }     from "@prisma/adapter-pg"
 
-const globalForPrisma = globalThis as unknown as { prisma: PrismaClient | undefined };
+const globalForPrisma = globalThis as unknown as { prisma: PrismaClient | undefined }
 
 export function getPrisma(): PrismaClient | null {
-  const url = process.env.DATABASE_URL?.trim();
-  if (!url) return null;
+  const url = process.env.DATABASE_URL?.trim()
+  if (!url) return null
 
-  // Prisma init template placeholder (common when people haven't created a real .env.local yet).
-  // Treat it as "DB not configured" so the app can run in demo mode.
   if (
     url.includes("johndoe:randompassword") &&
     url.includes("localhost:5432") &&
     url.includes("/mydb")
   ) {
-    return null;
+    return null
   }
 
   if (!globalForPrisma.prisma) {
+    const adapter = new PrismaPg({ connectionString: url })
     globalForPrisma.prisma = new PrismaClient({
+      adapter,
       log: process.env.NODE_ENV === "development" ? ["error", "warn"] : ["error"],
-    });
+    } as any)
   }
-  return globalForPrisma.prisma;
+
+  return globalForPrisma.prisma
 }

@@ -1,0 +1,1467 @@
+PORTAL X
+Raha Affinity Programme · ABNIC Insurance · B2B2C Distribution Platform
+Business Requirements Document — Full Edition
+Version 2.0  ·  April 2026  ·  Confidential
+Document Reference
+PX-BRD-001-v2
+Status
+Active — Phase 1
+Prepared By
+CTO Office — Portal X Programme
+Audience
+Engineering, Product, Compliance, Partners, Management
+Classification
+Confidential
+About This Document
+This document explains Portal X from the ground up. It is written so that anyone — whether they are an engineer, a business manager, a compliance officer, a typing centre owner, or a new team member who has never worked in insurance before — can read it and fully understand what Portal X is, why it exists, how it works, and how it is built.
+Every technical term is explained in plain language when it is first used. Every process is described step by step. No prior knowledge of insurance, software, or technology is assumed.
+How to use this document
+Business readers:  Read Sections 1 through 6 for full context and business logic.
+Technical readers:  Sections 7 through 14 cover the full technology architecture and specifications.
+Compliance readers:  Sections 11 and 12 cover security, data protection, and regulatory requirements.
+Partners (Raha / ABNIC):  Sections 8 and 9 cover your integration specifications in detail.
+PART ONE: BACKGROUND & CONTEXT
+1. Understanding Raha — What It Is and Where It Came From
+1.1 What is Daman4Less? (The Origin)
+Daman4Less was a healthcare loyalty card programme created for residents living in the UAE. Think of it like a discount membership card — similar to a supermarket loyalty card — but specifically for healthcare services.
+When a person bought a Daman4Less card, they got access to a wide network of clinics, pharmacies, diagnostic labs, and specialist doctors across the UAE at specially negotiated discounted prices. For example, a regular doctor consultation that might cost AED 200 at a private clinic could cost a Daman4Less member only AED 80.
+Real-world analogy for Daman4Less
+Imagine a 'Costco membership' but for healthcare. You pay a yearly fee to join. In return, every time you visit a participating clinic or pharmacy, you get significant discounts. The more you use it, the more value you get.
+Daman4Less worked exactly this way — pay once a year, save every time you visit a healthcare provider in the network.
+1.2 The Problem Daman4Less Solved
+The UAE has a large expatriate population. Many residents — especially those employed in smaller businesses, domestic workers, or self-employed individuals — do not have comprehensive employer-provided health insurance. Getting a standalone insurance policy is expensive and administratively complex.
+Daman4Less filled the gap: it gave these individuals access to affordable healthcare through a simple, low-cost card that could be purchased quickly at typing centres, brokers, or online.
+1.3 The Rebranding — Daman4Less becomes Raha
+The programme has been rebranded from Daman4Less to Raha. 'Raha' (راحة) is an Arabic word meaning comfort, ease, and relief — values that directly reflect what the product delivers to its members.
+The rebranding is not just a name change. Raha is a significant upgrade to the original Daman4Less proposition in two key ways:
+Embedded insurance coverage: Raha cards now come bundled with actual insurance policies underwritten by ABNIC (Abu Dhabi National Insurance Company). This means members no longer just get discounts — they get real insurance coverage that pays for hospitalisation, outpatient treatment, and specialist consultations.
+Tiered programme structure: Raha introduces three distinct tiers — Core, Pulse, and Zenith — each offering progressively higher coverage limits, more benefits, and a higher premium. Members choose the tier that fits their budget and healthcare needs.
+What changed with the Raha rebrand
+Before (Daman4Less):  Discount card only. Pay a fee, get reduced prices at network providers. No insurance coverage.
+After (Raha):         Loyalty card + embedded insurance. Pay a tier-based premium, get discounts AND actual insurance that covers treatment costs beyond the discount.
+This makes Raha significantly more valuable to members and commercially stronger as a product.
+1.4 How Raha Works — Step by Step (Plain Language)
+Here is exactly how the Raha programme works from a member's perspective, from joining to using the card:
+Step
+What Happens
+Who is Involved
+1. Purchase
+Member visits a typing centre or broker and chooses a Raha tier (Core, Pulse, or Zenith). They pay the annual premium in one payment.
+Member + Typing Centre Clerk
+2. Registration
+The typing centre clerk enters the member's details into Portal X. The system automatically registers the member with Raha and creates their loyalty account.
+Portal X + Raha System
+3. Insurance Policy
+Simultaneously, Portal X submits the member's details to ABNIC. ABNIC creates an active insurance policy linked to the member's Raha card.
+Portal X + ABNIC
+4. Card Delivery
+Two digital cards are sent to the member's WhatsApp and email within minutes: (1) their Raha loyalty card and (2) their ABNIC insurance card.
+Raha System + ABNIC + WhatsApp
+5. Using the Card
+Member visits any participating clinic or pharmacy. They show their Raha card (digital or printed). They get the discounted rate. For major treatment, they show their ABNIC insurance card for coverage.
+Member + Healthcare Provider
+6. Renewal
+At the end of the year, the member returns to any typing centre to renew. Their Raha account continues, their insurance policy is renewed.
+Member + Typing Centre + Portal X
+1.5 The Three Raha Tiers — Explained
+Raha offers three membership tiers. Each tier is like a different level of a mobile phone plan — the higher the tier, the more benefits, and the higher the price.
+CORE (Basic)
+PULSE (Standard)
+ZENITH (Premium)
+Annual Premium
+AED 150
+AED 250
+AED 400
+Raha Portion
+AED 50
+AED 75
+AED 100
+ABNIC Portion
+AED 100
+AED 175
+AED 300
+Coverage Level
+Basic
+Medium
+Comprehensive
+Outpatient Cover
+Limited
+Standard
+Full
+Hospitalisation
+Emergency
+Partial
+Full
+Specialist Visits
+Not covered
+Limited
+Covered
+Pharmacy Discounts
+10%
+20%
+30%
+Teleconsultation
+Not included
+Included
+Included
+Dental Discounts
+Not included
+5%
+15%
+Best Suited For
+Budget-conscious, healthy young adults
+Active families needing regular healthcare
+Families or individuals with regular medical needs
+Important: What the premium split means
+When a member pays AED 400 for the Zenith tier, that money is split between two companies:
+AED 100 goes to Raha — this pays for the loyalty card, network access, wellness benefits, and programme management.
+AED 300 goes to ABNIC — this is the insurance premium that funds the member's actual insurance coverage.
+The member makes one single payment. Portal X handles splitting it to the right accounts automatically.
+2. What is Portal X?
+2.1 The Simple Explanation
+Portal X is a web-based software platform — meaning it runs in a web browser, just like a website — that allows typing centres, insurance brokers, and other licensed agents to sell Raha cards and insurance products to their customers.
+Think of Portal X as the 'cash register system' for selling Raha and insurance. Instead of calling different companies, filling separate paper forms, and manually reconciling payments, the typing centre clerk opens Portal X on their computer, enters the customer's details once, processes one payment, and immediately prints or sends both cards. Everything else happens automatically in the background.
+Portal X in one sentence
+Portal X is the software that a typing centre uses to sell a Raha card to a walk-in customer — handling the registration, payment, insurance policy, and card delivery all in under 3 minutes from a single screen.
+2.2 The Problem Portal X Solves
+Before Portal X, here is what a typing centre clerk had to do to help a customer buy a Raha card and insurance:
+Open the Raha website in one browser tab and register the member manually.
+Open the ABNIC insurance portal in a second browser tab and re-enter the same customer details a second time to create the insurance policy.
+Collect payment — possibly in two separate transactions to two different accounts.
+Wait for each system to generate a card, then download them separately.
+Manually send the cards to the customer via WhatsApp or email.
+Record the transaction in a separate spreadsheet or notebook for their own records.
+This process was slow (often 10-15 minutes), error-prone (data entry mistakes across two systems), and impossible to audit or track centrally. Managers had no visibility into what their clerks were selling.
+Portal X replaces all of this with a single workflow that takes under 3 minutes and requires data entry only once.
+2.3 Who Uses Portal X?
+User Type
+Who They Are
+What They Do on Portal X
+Platform Operator
+The Portal X team (your company)
+Configures all products, sets pricing, creates affiliate accounts, sets payment split rules
+Typing Centre Owner / Super User
+Manager of a typing centre business
+Sees all transactions done by their staff, exports reports, manages staff accounts
+Typing Centre Clerk / Sub-User
+Counter staff at a typing centre
+Serves walk-in customers — selects plan, enters details, takes payment, hands over cards
+Insurance Broker
+Licensed insurance agent
+Sells products independently through Portal X, same workflow as typing centre clerk
+Walk-in Member / Customer
+UAE resident purchasing a Raha card
+Does not log into Portal X — they sit across the counter while the clerk uses it
+2.4 The B2B2C Model Explained
+Portal X operates on what is called a B2B2C model. This stands for Business-to-Business-to-Consumer. Here is what that means:
+B2B (Business to Business): Portal X (the platform) works with typing centres and brokers (other businesses).
+B2C (Business to Consumer): Those typing centres and brokers use Portal X to serve their customers (consumers).
+So the flow is: Portal X → Typing Centre → End Customer. Three layers, hence B2B2C.
+B2B2C analogy
+Think of Portal X like a payment terminal provider (like a card swipe machine). The terminal provider (Portal X) sells machines to shops (typing centres). The shops use those machines to serve their customers. The terminal provider never directly deals with the end customer — but their technology makes every transaction possible.
+3. Business Objectives
+Portal X is built to achieve the following specific business goals:
+Objective
+What it Means in Plain Language
+How Portal X Achieves It
+1. Centralise distribution
+All Raha and insurance sales happen through one system instead of multiple portals
+Single web platform replaces all manual processes
+2. Enforce access control
+Managers can see everything their staff does; staff can only see their own work
+Super user / sub-user role system with scoped dashboards
+3. Automate end-to-end
+Zero manual steps from member data entry to card delivery
+Automated API calls to Raha and ABNIC triggered instantly on payment
+4. Accurate payment splitting
+Each party (Raha and ABNIC) receives exactly the right amount automatically
+Payment gateway configured with pre-set split rules per tier
+5. Real-time analytics
+Managers see live data on sales, revenue, and team performance
+Live dashboards with transaction history, charts, and export
+6. Under 3 minutes
+The full purchase — from opening Portal X to both cards delivered — takes less than 3 minutes
+Optimised single-form workflow with parallel backend processing
+4. Scope — What Portal X Does and Does Not Do
+4.1 Phase 1 — What is Included
+Phase 1 is the first release of Portal X. It covers the core purchase workflow for Raha products. Everything listed below will be built and live before the platform launches.
+Feature Area
+What is Included
+Affiliate Management
+Creating and managing typing centre accounts and broker accounts. Super user and sub-user hierarchy within each organisation.
+Authentication & Login
+Secure login with username and password. Session management. Account lockout after failed attempts.
+Product Catalogue
+Display of Raha affinity plans (Core, Pulse, Zenith). Display of standard insurance plans. Plan comparison pop-up.
+Member Data Entry (KYC)
+10-field member data entry form with inline validation. File upload for identity documents.
+Payment Processing
+Single payment collection via payment gateway. Automatic split routing to Raha and ABNIC settlement accounts.
+Raha Integration
+Member registration with Raha system. Plan activation. Loyalty e-card generation and delivery.
+ABNIC Integration
+Policy creation with ABNIC. Insurance e-card generation and delivery.
+Card Delivery
+Dual WhatsApp and email delivery of both cards. In-portal download option for affiliate staff.
+Dashboards
+Sub-user transaction history. Super user consolidated analytics with charts and export.
+Audit Logging
+Immutable log of every transaction, login, and system event.
+4.2 Phase 1 — What is NOT Included
+The following features are deliberately excluded from Phase 1
+Dynamic premium calculation or live quote engine (all prices are fixed in Phase 1)
+Policy amendments, endorsements, or cancellations after issuance
+Claims management or claims status tracking
+Member-facing self-service portal or mobile app (members do not log in to Portal X)
+Self-service affiliate registration (all accounts created by Platform Operator)
+Additional insurance carriers beyond ABNIC (Phase 2 addition)
+Automated policy renewal workflows
+Refund processing through the portal UI
+Multi-currency transactions (AED only in Phase 1)
+Corporate HR group plan purchasing
+5. Who Uses Portal X — Detailed User Personas
+A user persona is a detailed description of a specific type of person who will use the system. Understanding these personas helps us build Portal X to match how real people actually work.
+5.1 The Platform Operator
+Platform Operator — The Portal X Administration Team
+Role:          Full system administrator — the company that owns and runs Portal X.
+Responsibilities:  Creates affiliate organisations, configures products and pricing, sets payment split rules, monitors all transactions across all affiliates.
+Technical skill:   High — manages backend configuration and has access to all data.
+Key goal:      Ensure the platform runs reliably, all affiliates are onboarded correctly, and split payments are reconciled accurately.
+5.2 Typing Centre Super User (Ali Hassan)
+Ali Hassan manages Typing Centre A, which has 3 counter clerks. Before Portal X, he spent every Monday morning manually downloading reports from three different insurance portals, cross-referencing them in Excel, and chasing clerks to explain discrepancies.
+Attribute
+Detail
+Name
+Ali Hassan
+Role
+Super User / Manager — Typing Centre A
+Manages
+3 sub-users (counter clerks)
+Daily challenge
+Manually reconciles data from multiple insurance portals each week
+Portal X goals
+See all transactions in one place, download e-cards on behalf of staff, export monthly revenue reports
+Time saved
+Eliminates ~4 hours per week of manual reconciliation
+What he can do
+View ALL transactions from ALL clerks, reset clerk passwords, download any e-card, export full CSV reports
+What he CANNOT do
+Change product pricing or create new affiliate organisations (only Platform Operator can)
+5.3 Typing Centre Counter Clerk (Sara Al Mansoori)
+Sara is a counter clerk at Typing Centre A. She serves 30–50 walk-in customers per day for various services including visa typing, insurance, and document attestation. Her goal is to serve each customer quickly and accurately.
+Attribute
+Detail
+Name
+Sara Al Mansoori
+Role
+Sub-User / Counter Clerk — Typing Centre A
+Serves
+30–50 walk-in customers per day
+Daily challenge
+Switches between 3 browser tabs, re-enters customer data multiple times, wastes time
+Portal X goals
+Process a Raha membership in under 3 minutes. Hand the customer both cards before they leave the desk.
+What she sees
+Only her own transactions — she cannot see what her colleagues have sold
+What she CANNOT do
+See other clerks' transactions, export org-wide reports, reset passwords, change products
+A perfect day
+Customer walks in. Sara opens Portal X, selects plan, enters details, takes payment. Both cards sent to customer's WhatsApp before they finish their cup of coffee.
+5.4 Walk-in Member / Customer (Rajesh Nair)
+Rajesh is a 35-year-old Indian expatriate living in Dubai. He works as an accountant for a small trading company that does not provide health insurance. He needs affordable healthcare coverage and learned about Raha from a friend.
+Attribute
+Detail
+Name
+Rajesh Nair
+Situation
+Expatriate resident, no employer health insurance
+Visits
+Typing Centre A to purchase Raha Zenith plan
+Expectation
+Get both digital cards on his WhatsApp before he leaves the typing centre
+What he pays
+AED 400 — one payment, covers both the loyalty card and insurance policy for one year
+What he gets
+Raha Zenith loyalty card (discounts at network clinics) + ABNIC Premium insurance card (actual coverage for medical treatment)
+Does he log into Portal X?
+NO — Rajesh never touches Portal X. Sara enters his details on his behalf while he sits across the counter.
+6. The Complete Purchase Journey — Step by Step
+This section describes exactly what happens when Rajesh walks into Typing Centre A and buys a Raha Zenith plan from Sara. This is the primary workflow of Portal X and covers every step from login to card delivery.
+Step 1 — Sara Logs In
+What happens
+Sara opens a web browser on her counter computer and goes to the Portal X web address.
+She types her username (user1typingcentrea@portalx.com) and password.
+Portal X verifies her credentials and loads her personal dashboard.
+The system creates a session — a temporary secure connection that lasts 30 minutes of inactivity.
+If Sara does not use the system for 30 minutes, she is automatically logged out and must log in again (security measure).
+What is a session? (Plain language)
+A session is like a visit to a bank. When you enter the bank and the teller recognises you, your 'session' begins. As long as you are actively transacting, it continues. If you sit idle for too long, the teller closes your window and you have to check in again. Portal X does the same — after 30 minutes of inactivity, Sara's session closes automatically.
+Step 2 — Rajesh Chooses His Plan
+What happens
+Sara's dashboard shows a 'New Purchase' button. She clicks it.
+She sees two product category tabs: 'Standard Insurance' and 'Affinity / Wellness Programme'.
+She selects 'Affinity / Wellness Programme'.
+A dropdown appears. She selects 'Raha with ABNIC'.
+Three plan tier cards appear on screen: Core (AED 150), Pulse (AED 250), Zenith (AED 400).
+Sara turns the screen towards Rajesh so he can see the options.
+Rajesh wants to know the full details. Sara clicks the (i) icon on the Zenith card.
+A comparison popup opens showing all three tiers side-by-side with full benefit details.
+Rajesh reviews and decides on Zenith. Sara clicks 'Select' on the Zenith card.
+Step 3 — Rajesh's Details are Entered (KYC Form)
+KYC stands for 'Know Your Customer'. It is a legal and regulatory requirement for insurance products — the insurer must know who they are covering. The Portal X KYC form captures 10 pieces of information:
+#
+Field Name
+What It Is
+Where It Goes
+1
+Full Name
+Member's full legal name
+Raha + ABNIC
+2
+WhatsApp Number
+Mobile number for card delivery
+Raha + ABNIC
+3
+Email Address
+Email for card delivery backup
+Raha + ABNIC
+4
+Date of Birth
+Member's date of birth (age verification)
+Raha + ABNIC
+5
+Sponsor ID
+Employer/sponsor reference number
+Raha + ABNIC
+6
+Emirates ID / E-Visa
+UAE identity document number
+ABNIC only
+7
+KYC Document 1
+Identity document scan (e.g. passport)
+ABNIC only
+8
+KYC Document 2
+Visa page or Emirates ID copy
+ABNIC only
+9
+KYC Document 3
+Optional supporting document
+ABNIC only
+10
+KYC Document 4
+Optional supporting document
+ABNIC only
+Why does some data go to Raha but not all? (Bifurcated routing)
+Raha only needs the basic identity details (fields 1-5) to register a loyalty card member.
+ABNIC needs all 10 fields including documents because insurance regulations require more thorough identity verification.
+Portal X intelligently routes the data: fields 1-5 go to Raha, all 10 fields go to ABNIC — automatically, without Sara having to think about it.
+Step 4 — Payment
+What happens
+Sara clicks 'Proceed to Payment'. Portal X shows a payment summary screen:
+Plan: Raha with ABNIC — Zenith
+Total Amount: AED 400.00
+Split: AED 100 to Raha  |  AED 300 to ABNIC
+Rajesh confirms. Sara processes the payment through the configured payment gateway.
+The gateway charges Rajesh's payment method AED 400 and automatically splits it:
+AED 100 is transferred to Raha's settlement account.
+AED 300 is transferred to ABNIC's settlement account.
+The gateway sends a success confirmation back to Portal X.
+Portal X records the transaction as 'Payment Confirmed'.
+What is a payment gateway? (Plain language)
+A payment gateway is the technology that securely processes card payments — like the card swipe machine at a shop, but for websites. Examples include Visa, Mastercard's network, or UAE providers like Telr and Network International.
+Crucially, Portal X never sees or stores the card number. The gateway handles all of that. Portal X only knows the result: success or failure.
+Step 5 — Both Systems Are Activated Simultaneously
+The moment Portal X receives payment confirmation, it triggers two actions at exactly the same time — not one after the other:
+Raha Activation
+ABNIC Policy Creation
+What Portal X sends
+Rajesh's name, WhatsApp, email, DOB, Sponsor ID + selected plan tier
+All 10 KYC fields + document files + plan code + payment reference
+What happens
+Raha registers Rajesh as a member and activates his Zenith loyalty account
+ABNIC creates an active insurance policy in Rajesh's name
+What comes back
+Rajesh's Raha member ID + Zenith e-card URL
+Policy number + ABNIC insurance e-card URL
+Time allowed
+30 seconds maximum
+45 seconds maximum
+If it fails
+System retries up to 3 times (5 second gap between retries)
+System retries up to 3 times (10 second gap between retries)
+If all retries fail
+Transaction flagged for manual follow-up, Platform Operator notified
+Transaction flagged for manual follow-up, Platform Operator notified
+Why parallel? Why not one after the other?
+If Raha activation takes 20 seconds and ABNIC takes 30 seconds, doing them one after the other would take 50 seconds minimum.
+Doing them simultaneously means both complete in about 30 seconds total.
+Since neither activation depends on the other completing first, there is no reason to wait — running them in parallel is faster and more efficient.
+Step 6 — Cards Delivered and Transaction Complete
+What happens
+Raha's system sends Rajesh's Zenith loyalty card to his WhatsApp number and email address.
+ABNIC's system sends Rajesh's insurance e-card and policy details to his WhatsApp and email.
+Portal X receives delivery confirmation from both systems.
+Sara's screen updates to show the confirmation screen with:
+Transaction Reference: PX-TXN-20260404-0001
+Rajesh Nair (partial mask: Raj*** Nai*)
+Plan: Raha with ABNIC — Zenith
+Amount Paid: AED 400 (Raha AED 100 / ABNIC AED 300)
+Raha Card: DELIVERED  [Download button]
+ABNIC Card: DELIVERED  [Download button]
+Rajesh checks his WhatsApp — both cards have arrived.
+Sara prints a copy for Rajesh if he wants a physical backup.
+Total time from login to cards delivered: approximately 2-3 minutes.
+PART TWO: FUNCTIONAL REQUIREMENTS
+7. What the System Must Do — Functional Requirements
+A functional requirement defines a specific capability or behaviour that the system must have. Each requirement below is given a unique ID code so it can be tracked through development and testing.
+Priority levels: 'Must Have' = the system cannot launch without this. 'Should Have' = important but not blocking launch. 'Nice to Have' = add if time permits.
+7.1 Authentication & Login
+ID
+Requirement
+Priority
+FR-AUTH-01
+The system must allow users to log in using a username and password.
+Must Have
+FR-AUTH-02
+After successful login, the system must create a secure session lasting 30 minutes of inactivity.
+Must Have
+FR-AUTH-03
+Sub-users must not be able to access super user features — the system enforces this automatically.
+Must Have
+FR-AUTH-04
+After 5 consecutive wrong password attempts, the account must be locked for 30 minutes.
+Must Have
+FR-AUTH-05
+A super user must be able to reset any sub-user's password within their own organisation.
+Must Have
+FR-AUTH-06
+All API calls from Portal X to external systems (Raha, ABNIC, Gateway) must include an authentication key in the request.
+Must Have
+FR-AUTH-07
+If a session expires during a transaction, the system must warn the user before logging them out.
+Must Have
+7.2 Product Catalogue & Plan Selection
+ID
+Requirement
+Priority
+FR-PROD-01
+The system must display two product category tabs: 'Standard Insurance' and 'Affinity / Wellness Programme'.
+Must Have
+FR-PROD-02
+Under Affinity Programme, a dropdown must list all active programme bundles (Phase 1: Raha with ABNIC).
+Must Have
+FR-PROD-03
+After selecting a bundle, the system must display three plan tier cards showing tier name, premium, and brief description.
+Must Have
+FR-PROD-04
+Each tier card must have an information icon (i). Clicking it must open a plan comparison popup.
+Must Have
+FR-PROD-05
+The comparison popup must show all three tiers side-by-side with rows for: premium, coverage, loyalty benefits, wellness inclusions.
+Must Have
+FR-PROD-06
+The popup must be closable without losing the user's current selections.
+Must Have
+FR-PROD-07
+The user must explicitly click a 'Select' button to confirm a plan — accidental selection must not be possible.
+Must Have
+FR-PROD-08
+Standard insurance plans must be displayed as fixed-price cards with no quote engine or price calculation.
+Must Have
+7.3 KYC Data Capture
+ID
+Requirement
+Priority
+FR-KYC-01
+The system must present a 10-field member data entry form after plan selection.
+Must Have
+FR-KYC-02
+The form must validate each field in real time (as the user types) and show errors immediately — not after submission.
+Must Have
+FR-KYC-03
+Document upload fields (6-10) must accept PDF and JPG files only, maximum 5 MB each.
+Must Have
+FR-KYC-04
+KYC data must be held temporarily until payment is confirmed — if payment fails, data must be preserved for retry.
+Must Have
+FR-KYC-05
+On payment confirmation, the system must automatically route fields 1-5 to the Raha API and all 10 fields to the ABNIC API.
+Must Have
+FR-KYC-06
+KYC document files must be deleted from storage within 1 hour of confirmed successful API transmission.
+Must Have
+FR-KYC-07
+Emirates ID must be stored in encrypted format — it must never be stored as plain readable text.
+Must Have
+7.4 Payment Processing
+ID
+Requirement
+Priority
+FR-PAY-01
+The system must display a payment summary page showing plan name, total amount, and the split breakdown before taking payment.
+Must Have
+FR-PAY-02
+Payment must be collected via the configured payment gateway as a single AED transaction.
+Must Have
+FR-PAY-03
+The gateway must apply the pre-configured split rule, routing the correct amount to each settlement account.
+Must Have
+FR-PAY-04
+Split amounts per tier must be configurable by the Platform Operator without requiring code changes.
+Must Have
+FR-PAY-05
+The system must receive and process the payment gateway's confirmation callback.
+Must Have
+FR-PAY-06
+If payment fails, the system must allow retry without requiring the user to re-enter KYC data.
+Must Have
+FR-PAY-07
+Every payment transaction must be logged with: gateway reference, amount, split detail, timestamp, and user ID.
+Must Have
+FR-PAY-08
+3D Secure (3DS) authentication must be enforced for all transactions above AED 200.
+Must Have
+7.5 Card Issuance & Delivery
+ID
+Requirement
+Priority
+FR-CARD-01
+On payment confirmation, the system must trigger both Raha and ABNIC API calls simultaneously (in parallel).
+Must Have
+FR-CARD-02
+The Raha API must be called with fields 1-5 and the selected plan tier.
+Must Have
+FR-CARD-03
+The ABNIC API must be called with all 10 KYC fields plus uploaded document references.
+Must Have
+FR-CARD-04
+The system must track the issuance status of both cards separately and update the transaction record on each callback.
+Must Have
+FR-CARD-05
+Both cards must be delivered to the member's WhatsApp (primary) and email (backup) by the respective backend systems.
+Must Have
+FR-CARD-06
+If WhatsApp delivery fails after 2 attempts, email delivery must be triggered automatically as fallback.
+Must Have
+FR-CARD-07
+The affiliate user must be able to download both e-cards as PDF from the transaction record at any time.
+Must Have
+FR-CARD-08
+Only the initiating sub-user and the super user of that affiliate may download e-cards from a transaction.
+Must Have
+FR-CARD-09
+If card issuance fails after 3 retries, the transaction must be flagged and the Platform Operator notified immediately.
+Must Have
+7.6 Dashboards & Reporting
+ID
+Requirement
+Priority
+FR-DASH-01
+The sub-user dashboard must show: today's transaction count, month-to-date count, and a paginated list of their own transactions.
+Must Have
+FR-DASH-02
+Each transaction in the list must show: date/time, member name (partially masked), plan tier, amount paid, status, and download links.
+Must Have
+FR-DASH-03
+The super user dashboard must show all sub-user transactions with a filter to view by individual sub-user.
+Must Have
+FR-DASH-04
+The super user analytics view must include: transaction volume over time chart, plan tier distribution chart, and revenue contribution by sub-user.
+Must Have
+FR-DASH-05
+The super user must be able to export the full transaction list as CSV or Excel.
+Should Have
+FR-DASH-06
+Dashboard data must refresh automatically within 60 seconds — no manual page refresh needed.
+Should Have
+FR-DASH-07
+The system must detect and warn if the same member is being registered with the same plan within 5 minutes (duplicate transaction prevention).
+Must Have
+PART THREE: TECHNICAL ARCHITECTURE
+8. How Portal X is Built — Technical Architecture
+This section explains the technology behind Portal X. Every technology choice is explained in plain language first, followed by the technical specification.
+8.1 The Big Picture — Three-Tier Architecture
+Portal X is built using what engineers call a 'three-tier architecture'. This means the system has three separate layers, each with a specific job:
+Tier
+Plain Language Name
+Technical Name
+What It Does
+Tier 1
+What you see on screen
+Frontend (React SPA)
+The visual interface — buttons, forms, tables, charts. Runs in the user's web browser. This is what Sara and Ali see when they open Portal X.
+Tier 2
+The brain
+Backend (Node.js API)
+The business logic engine. Receives requests from the browser, applies rules, talks to databases and external systems, and sends back results.
+Tier 3
+The filing cabinet
+Database (PostgreSQL)
+Permanent storage for all data — transactions, user accounts, card URLs, audit logs. Nothing is lost even if the server restarts.
+Architecture analogy
+Think of a restaurant:
+Tier 1 (Frontend) = The dining room and menu. This is what the customer (user) sees and interacts with.
+Tier 2 (Backend)  = The kitchen. Hidden from the customer. Receives orders, processes them, applies recipes (business rules), coordinates with suppliers.
+Tier 3 (Database) = The pantry and recipe book. Stores all ingredients (data) and records. Persistent — even if the kitchen closes tonight, tomorrow it still has everything.
+8.2 The Technology Stack — Every Tool Explained
+The 'technology stack' is the complete list of technologies used to build Portal X. Below, every technology is explained in plain language followed by its technical purpose.
+FRONTEND — What Users See
+Technology
+Plain Language Explanation
+Technical Purpose
+React 18 (TypeScript)
+React is the tool used to build the user interface — all the buttons, forms, tables, and charts. TypeScript is a stricter version of JavaScript that catches mistakes before the code runs. Together, they create a fast, modern web interface.
+Component-based UI framework. TypeScript provides compile-time type safety, reducing runtime errors in form handling, API calls, and data display.
+Next.js 14
+Next.js is built on top of React. It adds extra capabilities like faster page loading, built-in routing (navigation between pages), and the ability to run some code on the server rather than just the browser. Think of React as the engine and Next.js as the car that makes it practical to drive.
+Full-stack React framework. Provides server-side rendering (SSR) for faster initial page loads, API routes for backend logic, and file-based routing. Reduces complexity vs a separate React + Express setup.
+Tailwind CSS
+Tailwind is a styling toolkit that makes building a professional, responsive design much faster. Instead of writing separate style files, designers apply styles directly in the code. The result is a consistent, mobile-friendly UI without starting from scratch.
+Utility-first CSS framework. Eliminates custom CSS files. Responsive breakpoints, spacing, and colour system applied via class names. Enforces design consistency across the entire portal.
+BACKEND — The Business Logic Engine
+Technology
+Plain Language Explanation
+Technical Purpose
+Node.js (Express) or Python (FastAPI)
+Node.js is a technology that allows JavaScript — normally only used in browsers — to run on a server. FastAPI is a Python-based alternative. Both are excellent for building APIs (the communication channels between different software systems). Either can be chosen; the decision is made at project kick-off.
+Lightweight, async-capable API server. Handles high I/O throughput needed for parallel Raha/ABNIC API calls. Express is simple and widely known; FastAPI provides automatic API documentation.
+Prisma ORM
+Prisma is a tool that lets developers talk to the database using normal programming code instead of database query language (SQL). Think of it as a translator — you write instructions in your programming language, Prisma converts them into database commands. It also creates a shared 'blueprint' of the database that both Portal X and InnoCareX use, ensuring consistency.
+Type-safe database access layer. Schema defined once in Prisma schema file — generates TypeScript types automatically. Handles migrations (database structure changes) safely. Shared schema across Portal X and InnoCareX eliminates drift.
+Redis
+Redis is an extremely fast temporary data store. Unlike the main database which stores data permanently on disk, Redis stores data in memory (like RAM) for ultra-fast access. Portal X uses Redis for three things: storing login session tokens, preventing duplicate transactions, and rate limiting (blocking brute-force login attempts).
+In-memory key-value store. Session token storage with TTL (auto-expiry). Duplicate transaction detection using 5-minute keyed window. Rate limiting counters for login attempts and API abuse prevention.
+DATABASE — The Permanent Data Store
+Technology
+Plain Language Explanation
+Technical Purpose
+PostgreSQL 15
+PostgreSQL is the main database — a professional, enterprise-grade filing system for all Portal X data. Every transaction, every user account, every card URL, every audit log entry is stored here permanently. It is renowned for reliability and accuracy, especially for financial data where every record must be exactly correct.
+Relational database (RDBMS). ACID-compliant (Atomicity, Consistency, Isolation, Durability) — critical for financial transaction integrity. JSON column support for KYC metadata. Multi-AZ deployment with automatic failover for high availability.
+AWS S3 / Azure Blob Storage (UAE Region)
+S3 and Azure Blob are cloud storage services — like an extremely large, secure, and reliable hard drive in the cloud. Portal X uses this specifically to temporarily store the KYC document files (passport scans, Emirates ID photos) that are uploaded during the purchase process. These files are stored only briefly — they are deleted within 1 hour of being sent to ABNIC.
+Object storage for binary files. KYC documents stored with pre-signed temporary URLs (time-limited access links). Documents marked ephemeral — auto-deleted after API transmission confirmation. UAE region data residency compliance.
+MESSAGING — Handling Tasks in the Background
+Technology
+Plain Language Explanation
+Technical Purpose
+RabbitMQ or AWS SQS (Message Queue)
+A message queue is like a 'to-do list' for computers. When Portal X receives payment confirmation, instead of immediately calling Raha and ABNIC directly (which could fail if they are slow), it places two tasks in the queue: 'Register with Raha' and 'Create ABNIC Policy'. Background workers then pick up these tasks, process them, and retry if they fail — independently of the user waiting at the counter.
+Async message broker. Decouples payment confirmation from API execution. Enables reliable at-least-once delivery with retry logic. Dead-letter queue captures failed messages for manual review. Raha queue: 3 retries × 5s. ABNIC queue: 3 retries × 10s.
+COMMUNICATIONS — Delivering Cards to Members
+Technology
+Plain Language Explanation
+Technical Purpose
+WhatsApp Business API (Meta Cloud)
+The official WhatsApp API for businesses. This is what sends Rajesh his two cards on WhatsApp. It uses pre-approved message templates — specific message formats that WhatsApp has reviewed and approved for business use. Portal X calls this API with the member's number and card URL; WhatsApp delivers the message.
+Meta Cloud API. Pre-approved templates required before go-live. Delivery receipt webhooks update Portal X on success/failure. Fallback triggered after 2 failed delivery attempts.
+SendGrid / AWS SES (Email)
+SendGrid and AWS SES are professional email delivery services. Unlike sending emails from a regular email account, these services are optimised for transactional emails — ensuring high delivery rates, tracking whether emails were opened, and managing bounces. Used as the backup delivery channel if WhatsApp fails.
+Transactional email service. Delivery tracking and bounce management. Fallback channel when WhatsApp delivery fails. Email templates for Raha card and ABNIC card delivery.
+PAYMENT — Handling Money Securely
+Technology
+Plain Language Explanation
+Technical Purpose
+Telr / Network International / Checkout.com
+These are UAE-based payment gateway providers — the secure technology that processes card payments. The gateway is PCI-DSS certified, meaning it meets the strict international standard for handling card data. Portal X never sees or stores any card numbers — all sensitive payment data stays within the gateway's secure environment.
+PCI-DSS certified payment processing. Split-payment routing configured at gateway level. 3DS2 authentication for high-value transactions. Idempotency keys prevent double-charging on retries. Callback URL for payment confirmation. Portal X maintains SAQ-A scope — no card data on Portal X servers.
+INFRASTRUCTURE — Where Everything Runs
+Technology
+Plain Language Explanation
+Technical Purpose
+AWS / Azure (UAE North Region)
+Cloud hosting providers. Portal X runs on servers in a UAE-based data centre, which is legally required — all member personal data must stay within UAE borders.
+UAE data residency compliance. 99.9% SLA. Multi-availability zone deployment for redundancy. Auto-scaling groups for App and Worker tiers.
+Docker + Kubernetes
+Docker packages each part of Portal X into a self-contained 'container' — like a shipping container that includes everything the software needs to run. Kubernetes manages these containers: it starts them, stops them, restarts them if they crash, and scales up to more containers if traffic increases.
+Container orchestration. Docker images for reproducible deployments. Kubernetes handles autoscaling, self-healing, rolling updates, and zero-downtime deploys.
+GitHub Actions / Azure DevOps (CI/CD)
+CI/CD stands for Continuous Integration / Continuous Deployment. This is an automated pipeline that runs every time a developer pushes new code: it tests the code automatically, checks for errors, and if everything passes, deploys the update to the appropriate environment. No manual deployment process.
+Automated build, test, and deploy pipeline. Stages: lint → typecheck → unit test → integration test → build → deploy. DB migration gate ensures schema changes are safe before app pods roll. Blue-green deployment in production.
+Datadog / CloudWatch (Monitoring)
+Monitoring tools that watch the system 24/7. They track: how fast pages are loading, how many errors are occurring, whether the Raha or ABNIC APIs are responding, how many transactions are in the queue. If anything goes wrong, they send an alert to the engineering team.
+APM (Application Performance Monitoring), log aggregation, metrics dashboards, and alert management. Traces individual requests across all services. Alerts on error rate spikes, queue backlog, partner API failures, and SLA breaches.
+9. Data Architecture — How Data is Stored
+9.1 What is a Database Schema?
+A database schema is like the blueprint of a filing cabinet. It defines what 'drawers' (tables) exist, what each drawer contains (columns), and how the drawers are connected to each other. Below is the complete database schema for Portal X.
+9.2 The affiliates Table — Organisation Records
+Stores every typing centre, broker firm, and B2C affiliate registered on the platform.
+Column Name
+Data Type
+Plain Language Description
+id
+UUID (unique code)
+A unique identifier for each affiliate organisation — like a company registration number
+code
+Short text (20 chars)
+The short code used in usernames — e.g. 'typingcentrea'
+name
+Text
+The full legal name of the organisation
+affiliate_type
+Category
+What type of affiliate: typing_centre, broker, b2c, or corporate
+status
+Category
+Current status: active, suspended, or terminated
+created_at
+Date/Time
+When the affiliate account was created
+config
+Flexible data (JSONB)
+Custom settings for this affiliate — e.g. which products they can sell, their commission rate
+9.3 The users Table — Individual User Accounts
+Column Name
+Data Type
+Plain Language Description
+id
+UUID
+Unique identifier for each user
+affiliate_id
+UUID (FK)
+Links this user to their affiliate organisation
+username
+Text
+Login username — always in email format
+password_hash
+Text
+The password stored as a one-way encrypted hash — the actual password is never stored
+role
+Category
+User's role: super_user, sub_user, or operator
+status
+Category
+Account status: active, locked, or suspended
+failed_login_count
+Number
+How many consecutive wrong passwords have been entered (resets to 0 on successful login)
+locked_until
+Date/Time
+If locked after 5 failures, this is when the lock expires (30 minutes from lockout time)
+last_login_at
+Date/Time
+Timestamp of the most recent successful login
+created_at
+Date/Time
+When this user account was created
+9.4 The transactions Table — Every Purchase Record
+Column Name
+Data Type
+Plain Language Description
+id
+UUID
+Unique transaction identifier
+reference
+Text
+Human-readable reference — e.g. PX-TXN-20260404-0001
+user_id
+UUID (FK)
+The sub-user who processed this transaction
+affiliate_id
+UUID (FK)
+The affiliate organisation this transaction belongs to
+plan_tier
+Category
+Which tier was purchased: core, pulse, or zenith
+programme_bundle
+Text
+Which bundle: raha_abnic, raha_alliance, etc.
+total_amount_aed
+Decimal
+Total amount charged to the member
+raha_split_aed
+Decimal
+Amount routed to Raha's settlement account
+insurer_split_aed
+Decimal
+Amount routed to ABNIC's settlement account
+status
+Category
+Current status: pending_kyc → pending_payment → payment_confirmed → complete → failed
+gateway_ref
+Text
+Reference number returned by the payment gateway
+raha_member_id
+Text
+Member ID assigned by the Raha system after registration
+abnic_policy_id
+Text
+Policy ID assigned by ABNIC after policy creation
+raha_card_url
+Text
+Link to download the Raha loyalty e-card
+abnic_card_url
+Text
+Link to download the ABNIC insurance e-card
+created_at
+Date/Time
+When the transaction was started
+completed_at
+Date/Time
+When both cards were successfully delivered
+9.5 The member_kyc Table — Member Identity Data (Temporary)
+This table stores the 10-field KYC data entered during a transaction. It is linked to the transaction and is treated as sensitive data.
+Column Name
+Data Type
+Plain Language Description
+id
+UUID
+Unique KYC record identifier
+transaction_id
+UUID (FK)
+Links to the parent transaction
+full_name
+Text
+Member's full legal name
+whatsapp
+Text
+WhatsApp number in international format (+971...)
+email
+Text
+Member's email address
+date_of_birth
+Date
+Member's date of birth
+sponsor_id
+Text
+Employer/sponsor identification number
+emirates_id
+Encrypted Text
+Emirates ID or E-Visa number — stored encrypted, never in plain text
+doc_1_s3_key
+Text
+Reference key to the uploaded document 1 in object storage
+doc_2_s3_key
+Text
+Reference key to the uploaded document 2
+doc_3_s3_key
+Text
+Reference key to uploaded document 3 (optional)
+doc_4_s3_key
+Text
+Reference key to uploaded document 4 (optional)
+purged_at
+Date/Time
+Timestamp when the document files were deleted from storage — must be within 1 hour of API transmission
+10. External API Integrations
+An API (Application Programming Interface) is a way for two software systems to communicate with each other. Think of it like a waiter in a restaurant — you tell the waiter your order (the request), the waiter goes to the kitchen (the external system), and comes back with your food (the response).
+10.1 Raha API Integration
+Portal X communicates with the Raha system to register members and activate plans. Because Raha is an internal group entity (Daman4Less rebranded), Portal X has full knowledge of and control over the API contract.
+Raha API — The 4 calls Portal X makes
+1. POST /api/v1/members/register  →  Registers the new member and activates their plan tier.
+2. POST /api/v1/plans/activate     →  Confirms plan activation with member ID returned from step 1.
+3. GET  /api/v1/cards/{member_id}  →  Retrieves the generated e-card URL.
+4. POST /api/v1/cards/deliver      →  Instructs Raha to send the card via WhatsApp and email.
+Example Raha Registration Request (what Portal X sends)
+POST /api/v1/members/register
+Authorization: Bearer {RAHA_API_KEY}
+Request Body:
+{
+"full_name":             "Rajesh Nair",
+"whatsapp":              "+971501234567",
+"email":                 "rajesh.nair@email.com",
+"date_of_birth":         "1985-03-15",
+"sponsor_id":            "UAE123456",
+"plan_tier":             "zenith",
+"portal_transaction_ref":"PX-TXN-20260404-0001"
+}
+Raha Response:
+{ "member_id": "RM-789012", "status": "registered", "plan_tier": "zenith" }
+10.2 ABNIC API Integration
+Portal X communicates with ABNIC to create insurance policies. ABNIC is an external partner — Abu Dhabi National Insurance Company.
+ABNIC API — The 4 calls Portal X makes
+1. POST /api/v2/policies/create                   →  Submits all 10 KYC fields and documents to create the policy.
+2. GET  /api/v2/policies/{policy_id}/status        →  Checks whether the policy has been activated.
+3. GET  /api/v2/policies/{policy_id}/card          →  Retrieves the insurance e-card URL.
+4. POST /api/v2/cards/deliver                      →  Instructs ABNIC to deliver the card via WhatsApp and email.
+Example ABNIC Policy Create Request (what Portal X sends)
+POST /api/v2/policies/create
+Content-Type: multipart/form-data
+Authorization: Bearer {ABNIC_API_KEY}
+Fields sent:
+full_name:              Rajesh Nair
+whatsapp:               +971501234567
+email:                  rajesh.nair@email.com
+date_of_birth:          1985-03-15
+sponsor_id:             UAE123456
+emirates_id:            784-1985-1234567-1
+kyc_doc_1:              [passport scan file]
+kyc_doc_2:              [visa page file]
+plan_code:              ABNIC-PREM-001
+payment_reference:      GW-TXN-2026-XXXX
+portal_transaction_ref: PX-TXN-20260404-0001
+premium_amount:         300
+currency:               AED
+ABNIC Response:
+{ "policy_id": "ABNIC-POL-567890", "status": "active", "policy_number": "MED-2026-567890" }
+10.3 Payment Gateway Integration
+Parameter
+Value / Notes
+Transaction Type
+Single charge with server-side split routing to multiple settlement accounts
+Currency
+AED only (Phase 1)
+Split — Core
+AED 50 to Raha account + AED 100 to ABNIC account
+Split — Pulse
+AED 75 to Raha account + AED 175 to ABNIC account
+Split — Zenith
+AED 100 to Raha account + AED 300 to ABNIC account
+3DS Enforcement
+Required for all card-not-present transactions above AED 200
+Idempotency
+Portal X sends a unique key per transaction — gateway ignores duplicate submissions
+PCI-DSS Scope
+Portal X is SAQ-A — no card data passes through Portal X servers. All card data handled by the gateway.
+Callback URL
+https://portalx.com/api/v1/payment/callback
+Failure Handling
+Transaction held in PENDING; KYC data preserved; user can retry payment without re-entering data
+10.4 WhatsApp Business API
+Parameter
+Value / Notes
+Provider
+Meta Cloud API (official WhatsApp Business Account)
+Message Type
+Template messages — must be pre-approved by Meta before use
+Raha Card Template
+'Your Raha {tier} card is ready. Download here: {card_url}'
+ABNIC Card Template
+'Your ABNIC insurance policy {policy_number} is active. Download: {card_url}'
+Delivery Receipt
+WhatsApp sends a callback to Portal X confirming delivery success or failure
+Failure Handling
+If delivery fails after 2 attempts, email fallback is triggered automatically
+Template Approval
+Templates must be submitted to Meta for approval minimum 2 weeks before launch
+10.5 Portal X Internal API — Endpoints for the Frontend
+These are the API endpoints that the Portal X frontend (what Sara sees in her browser) uses to communicate with the Portal X backend. These are different from the external APIs above.
+Method
+Endpoint
+What it does
+Login Required?
+POST
+/api/v1/auth/login
+Log in with username + password, receive session token
+No
+POST
+/api/v1/auth/logout
+Log out and invalidate the session token
+Yes
+GET
+/api/v1/products/categories
+Get the list of product categories
+Yes
+GET
+/api/v1/products/affinity
+Get available affinity programme bundles
+Yes
+GET
+/api/v1/products/affinity/{bundle}/plans
+Get plan tiers for a specific bundle
+Yes
+POST
+/api/v1/transactions
+Start a new transaction with KYC data and plan selection
+Yes
+POST
+/api/v1/transactions/{id}/pay
+Trigger payment for a pending transaction
+Yes
+GET
+/api/v1/transactions/{id}
+Get the full details of a specific transaction
+Yes
+GET
+/api/v1/transactions/{id}/cards
+Get the e-card download links for a transaction
+Yes
+GET
+/api/v1/dashboard/summary
+Get this user's dashboard stats (today count, month count)
+Yes
+GET
+/api/v1/dashboard/transactions
+Get paginated transaction list for dashboard
+Yes
+GET
+/api/v1/dashboard/analytics
+Get org-wide analytics data (super user only)
+Super User
+GET
+/api/v1/users
+List all sub-users in the affiliate organisation
+Super User
+POST
+/api/v1/users/{id}/reset-password
+Reset a sub-user's password
+Super User
+POST
+/api/v1/payment/callback
+Receive payment confirmation from the gateway
+Gateway signature
+11. How Well the System Must Perform — Non-Functional Requirements
+Non-functional requirements define not WHAT the system does but HOW WELL it does it — speed, security, reliability, and compliance.
+11.1 Performance Requirements
+ID
+Requirement
+Target
+Why It Matters
+NFR-PERF-01
+Dashboard initial load time
+< 3 seconds
+A slow dashboard frustrates clerks serving waiting customers
+NFR-PERF-02
+KYC form to payment page navigation
+< 2 seconds
+Keep the counter transaction moving quickly
+NFR-PERF-03
+Payment confirmed to API trigger
+< 5 seconds
+Member should not wait long after payment
+NFR-PERF-04
+Raha card delivery to WhatsApp
+< 60 seconds
+Card on phone before customer leaves the counter
+NFR-PERF-05
+ABNIC card delivery to WhatsApp
+< 90 seconds
+Insurance card arrives within 1.5 minutes of payment
+NFR-PERF-06
+Dashboard data refresh
+< 60 seconds
+Manager sees near-real-time data without manual refresh
+NFR-PERF-07
+Concurrent user sessions supported
+500 sessions
+Handles growth to hundreds of typing centres simultaneously
+NFR-PERF-08
+Full counter purchase flow (end-to-end)
+< 3 minutes
+Core business promise: walk in, walk out with cards in 3 minutes
+11.2 Security Requirements
+ID
+Requirement
+Standard / Method
+Plain Language
+NFR-SEC-01
+All data in transit encrypted
+TLS 1.2 min, 1.3 preferred
+All data travelling between browser and server is scrambled — cannot be read if intercepted
+NFR-SEC-02
+All PII at rest encrypted
+AES-256, KMS-managed keys
+Data stored in the database is encrypted — unreadable without the decryption key
+NFR-SEC-03
+Payment data handling
+PCI-DSS SAQ-A
+Card numbers never touch Portal X servers — handled entirely by the gateway
+NFR-SEC-04
+Password storage
+Bcrypt, 12 rounds minimum
+Passwords stored as irreversible hashes — even if the database is breached, passwords cannot be recovered
+NFR-SEC-05
+Session management
+JWT, Redis-backed revocation
+Sessions can be instantly invalidated (e.g. on logout or password reset)
+NFR-SEC-06
+Emirates ID storage
+Application-layer encryption before write
+Encrypted before it enters the database — extra layer beyond database encryption
+NFR-SEC-07
+API keys to external systems
+AWS Secrets Manager / Azure Key Vault
+API keys stored in a dedicated secrets service — never in code or config files
+NFR-SEC-08
+KYC document retention
+Purged within 1 hour of transmission
+Documents deleted from storage as soon as ABNIC confirms receipt
+NFR-SEC-09
+Audit logging
+Immutable — append only
+Every action is permanently recorded — cannot be edited or deleted
+NFR-SEC-10
+OWASP Top 10
+Pen test before production launch
+Independent security experts test for known vulnerabilities before go-live
+11.3 Availability & Resilience
+ID
+Requirement
+Target
+Plain Language
+NFR-AVAIL-01
+Platform uptime (08:00–22:00 GST)
+99.5% monthly
+Less than 3.6 hours of unplanned downtime per month during operating hours
+NFR-AVAIL-02
+Planned maintenance window
+Sun 02:00–04:00
+System updates happen Sunday nights when usage is lowest
+NFR-AVAIL-03
+External API failure handling
+Graceful retry
+If Raha or ABNIC is slow, Portal X queues the request and retries — does not fail immediately
+NFR-AVAIL-04
+Database failover
+Automatic
+If the main database server fails, a standby server takes over automatically
+NFR-AVAIL-05
+Message queue durability
+Persistent
+Tasks in the queue survive a server restart — nothing is lost
+NFR-AVAIL-06
+Recovery Point Objective (RPO)
+< 1 hour
+In a disaster, data loss is limited to a maximum of 1 hour of transactions
+NFR-AVAIL-07
+Recovery Time Objective (RTO)
+< 4 hours
+After a disaster, the system is fully restored within 4 hours
+11.4 Compliance Requirements
+Requirement
+Details
+UAE Data Residency
+All member PII must be stored within UAE data centre boundaries. No data to be processed or stored on servers outside the UAE.
+UAE PDPL Compliance
+UAE Federal Decree-Law No. 45 of 2021 on Personal Data Protection Law. Member consent, data minimisation, and right to erasure must be implemented.
+Insurance Authority Regs
+All insurance product display and sale must comply with UAE Insurance Authority regulations and the affiliate's licensed activities.
+AML/CFT Requirements
+KYC processes must comply with UAE Anti-Money Laundering and Countering Financing of Terrorism requirements and ABNIC's onboarding standards.
+PCI-DSS
+All payment flows must comply with Payment Card Industry Data Security Standard. Portal X maintains SAQ-A scope.
+Audit Log Retention
+Immutable audit logs retained for minimum 7 years as required by UAE financial and insurance regulations.
+WhatsApp Messaging
+All WhatsApp message templates must be pre-approved by Meta and comply with applicable messaging laws.
+Accessibility
+WCAG 2.1 Level AA compliance across all portal screens for accessibility.
+12. What Happens When Things Go Wrong — Error Handling
+No system is perfect. This section defines exactly what Portal X does when errors occur, so that users always have a clear experience and no transactions are silently lost.
+Scenario
+What the System Does (Behind the Scenes)
+What Sara / the User Sees
+Payment gateway timeout
+Transaction held in PENDING status. System retries up to 3 times with 10-second gaps between retries.
+Spinner with 'Processing payment...' message. If all retries fail: clear error message with option to retry.
+Raha API fails after payment
+RAHA_ISSUANCE_REQUEST message queued. System retries 3 times with 5-second gaps. If all fail: transaction flagged, Platform Operator alerted.
+Success screen shown immediately. Raha card status shown as 'In Progress'. Operator follows up manually.
+ABNIC API fails after payment
+ABNIC_ISSUANCE_REQUEST message queued. System retries 3 times with 10-second gaps. If all fail: transaction flagged, Platform Operator alerted.
+Success screen shown immediately. ABNIC card status shown as 'In Progress'. Operator follows up.
+WhatsApp delivery fails
+System retries WhatsApp 2 times. After 2nd failure, email delivery triggered automatically as fallback.
+'Delivery pending — available for download'. Download button shown for Sara to give card manually.
+Email delivery also fails
+Card URL stored in transaction record. Available for download from portal indefinitely.
+'Card available for download' button shown. Sara can print it for the member.
+KYC document upload fails
+Form shows inline error on the specific file field.
+Red error on the file field. Message: 'File too large' or 'Invalid format'. User can re-upload.
+Duplicate transaction detected
+System detects same member + same plan within 5 minutes. Holds the new transaction.
+Warning dialog: 'A recent transaction exists for this member. Are you sure you want to proceed?' Sara must confirm to continue.
+Session expires during KYC entry
+Session token invalidated. KYC data in the temporary form is lost.
+Re-login prompt. Warning: 'Your session expired. You will need to re-enter member details.' Sara logs back in and starts over.
+Invalid KYC field format
+Real-time validation catches the error before submission.
+Immediate red error under the field. E.g. 'WhatsApp number must start with + and country code'. Sara corrects before proceeding.
+13. How the Portal Must Look and Feel — UI/UX Requirements
+13.1 Design Principles
+Professional and trustworthy: The portal handles money and health data. It must look like a financial services tool — clean, structured, no unnecessary decoration.
+Efficient for counter use: The primary user (Sara) is serving a waiting customer. Every screen must be designed to minimise clicks and cognitive load.
+Mobile-responsive: While primarily used on desktop at the counter, the portal must display correctly on tablets and phones.
+Error clarity: Every error must be specific, actionable, and in plain language. 'An error occurred' is never acceptable.
+Transparent data handling: The member and the clerk must always know what data is being sent where. No hidden routing.
+13.2 Screen Inventory
+Screen Name
+Purpose
+Key Elements
+Login Screen
+Credential authentication
+Username + password fields; login button; forgot password link; error messages for failed attempts and lockout
+Sub-User Dashboard
+Transaction history and quick actions
+Today's count card; month-to-date card; paginated transaction table; 'New Purchase' button
+Super User Dashboard
+Org-wide analytics and oversight
+Aggregate stats cards; sub-user filter dropdown; transaction volume chart; plan tier pie chart; revenue table; export button
+Product Selection Screen
+Category, payer, and plan selection
+Category tabs (Standard / Affinity); affinity dropdown; plan tier cards with prices; (i) comparison modal trigger
+Plan Comparison Modal
+Side-by-side tier comparison
+3-column table; benefit rows; premium per column; 'Select this plan' button per column; close/dismiss button
+KYC Data Entry Form
+10-field member data entry
+Grouped fields (Shared section + Insurance-only section); file upload components; inline validation; 'Proceed to Payment' button
+Payment Summary Screen
+Pre-payment review and payment collection
+Plan name; total amount; split breakdown (Raha + ABNIC); payment widget; back button to edit KYC
+Confirmation Screen
+Post-purchase success summary
+Transaction reference; member name (masked); plan; amount; Raha card status + download; ABNIC card status + download; print button
+Transaction Detail Screen
+Full record of a past transaction
+All fields from confirmation + delivery status history; re-download buttons; support reference number
+13.3 Accessibility Requirements
+WCAG 2.1 Level AA compliance across all screens
+All form fields must have associated labels visible to screen readers
+Colour contrast ratio minimum 4.5:1 for all body text
+Full keyboard navigation across all workflows — mouse must not be required
+File upload components must support assistive technologies
+Error messages must not rely on colour alone — must include text description
+14. Testing Strategy — How We Verify the System Works
+Before Portal X goes live, every part of it must be tested. Below is the complete testing strategy.
+Test Type
+What is Tested
+How it is Done
+Who Does It
+Unit Tests
+Individual functions and business logic — e.g. does the split calculation give the correct amounts?
+Automated code tests using Jest (JavaScript) or Pytest (Python). Run on every code commit.
+Development team
+Integration Tests
+Does Portal X correctly communicate with Raha sandbox, ABNIC UAT, and payment gateway sandbox?
+Automated API tests using Postman or Supertest against partner sandbox environments.
+Development team
+End-to-End Tests
+Does the complete Zenith purchase flow work from login to card delivery?
+Automated browser tests using Playwright or Cypress — simulates a real user clicking through the entire portal.
+QA team
+Payment Tests
+Do the split rules correctly route AED 100 to Raha and AED 300 to ABNIC for Zenith?
+Manual and automated tests in payment gateway sandbox environment.
+QA + Payments team
+Security Testing
+Does the portal have any security vulnerabilities? Can an attacker access another user's data?
+OWASP ZAP automated scanning + manual penetration test by an external security vendor.
+Security team / Vendor
+Performance Testing
+Can the system handle 500 simultaneous users without slowing down?
+Load testing using k6 or Locust — simulates hundreds of concurrent sessions.
+QA / DevOps team
+UAT (User Acceptance)
+Do real typing centre staff and partner stakeholders confirm the system meets their needs?
+Hands-on testing by actual affiliate users with real (test) credentials in staging environment.
+Product Owner + Affiliates + Partners
+Compliance Review
+Is KYC routing correct? Is data residency enforced? Are retention policies implemented?
+Manual audit against compliance checklist.
+Compliance Officer
+14.1 Key Test Scenarios
+Happy path — Zenith purchase by sub-user; both cards delivered to member via WhatsApp within target time.
+Happy path — Core purchase by super user directly.
+Plan comparison modal — open, compare all three tiers, select Pulse, close, then change to Zenith.
+KYC validation — submit form with each mandatory field missing; verify each error appears correctly.
+Payment failure — gateway returns failure; verify retry option preserves KYC data.
+Raha API timeout — verify retry queue activates, transaction status updates correctly, operator alerted after all retries exhausted.
+ABNIC API timeout — same as above for ABNIC path.
+Duplicate transaction — same member, same plan, within 5 minutes — verify warning dialog and override flow.
+Super user dashboard — verify sub-user filter works; verify all org transactions are visible.
+Sub-user isolation — User 1 cannot see User 2's transactions even by guessing transaction IDs.
+Session expiry during KYC entry — verify re-login prompt and data loss warning.
+WhatsApp delivery failure — verify email fallback triggers and portal download is available.
+Account lockout — 5 wrong passwords; verify 30-minute lockout; verify super user can unlock.
+Emirates ID encryption — verify the field is stored encrypted in the database.
+KYC document purge — verify documents are deleted from object storage within 1 hour of ABNIC confirmation.
+15. Environments & Deployment — How the System is Released
+15.1 What is an Environment?
+An 'environment' is an isolated copy of the Portal X system used for different purposes. Think of it like having a practice kitchen (development), a test restaurant that serves food critics before opening (staging), and the real restaurant serving customers (production).
+Environment
+Purpose
+External APIs Connected
+Data Used
+Development (DEV)
+Where engineers write and test new code
+Mock/fake APIs — no real calls made
+Fake test data only
+Integration (INT)
+Testing the real connections to partner systems
+Raha sandbox + ABNIC UAT + Gateway sandbox
+Fake test data only
+Staging (STG)
+Full realistic test before production launch
+Raha UAT + ABNIC UAT + Gateway staging
+Anonymised production-like data
+Production (PROD)
+The live system — real customers, real money
+Raha live + ABNIC live + Gateway live
+Real member PII — all controls active
+15.2 The Deployment Pipeline
+The deployment pipeline is an automated sequence of steps that gets code from a developer's computer to the production system safely:
+Developer writes code and pushes it to the version control system (GitHub).
+Automated tests (unit + lint + typecheck) run immediately and must pass.
+Code merged to main branch triggers automated integration test suite.
+On all tests passing: code is automatically deployed to DEV environment.
+Manual promotion to INT environment for API integration testing with partner sandboxes.
+On UAT sign-off from stakeholders: manual promotion to PROD with approval gate.
+Blue-green deployment in PROD: new version deployed alongside old version; traffic shifted gradually to new version; automatic rollback if health checks fail.
+Automated smoke tests run post-deployment to verify all critical endpoints respond correctly.
+16. Project Timeline — Phase 1
+Sprint
+Duration
+What Gets Built
+Sprint 0 — Setup & Architecture
+2 weeks
+Infrastructure provisioned; repository created; partner API sandbox access confirmed; database schema v1 created; development environment ready
+Sprint 1 — Auth & Affiliate Management
+2 weeks
+Login system; session management; role-based access; credential provisioning; affiliate organisation setup; super/sub-user hierarchy
+Sprint 2 — Product Catalogue
+2 weeks
+Product category UI; affinity dropdown; plan tier cards; plan comparison modal; standard insurance plan listing
+Sprint 3 — KYC Form & Validation
+2 weeks
+10-field KYC form; real-time validation; file upload; KYC data temporary storage; duplicate transaction detection
+Sprint 4 — Payment Gateway
+2 weeks
+Payment summary screen; gateway integration; split rule configuration; payment callback handling; payment retry flow
+Sprint 5 — Raha API Integration
+2 weeks
+Raha adapter; member registration; plan activation; card retrieval; WhatsApp and email delivery via Raha
+Sprint 6 — ABNIC API Integration
+2 weeks
+ABNIC adapter; policy creation; card issuance; delivery; retry queue; bifurcated KYC routing
+Sprint 7 — Dashboards & Analytics
+2 weeks
+Sub-user dashboard; super user dashboard; transaction history; charts; CSV/Excel export
+Sprint 8 — UAT & Security Testing
+2 weeks
+Full UAT with typing centres and partners; penetration test; compliance review; bug fixes from testing
+Sprint 9 — Hardening & Launch
+2 weeks
+Performance optimisation; production deployment; go-live support; monitoring setup; team training
+TOTAL PHASE 1
+~20 weeks (5 months)
+Target production launch: Q3 2026 (subject to API sandbox availability and partner UAT sign-off)
+Phase Roadmap Beyond Phase 1
+Phase 2 (Q1 2027):  Quote engine for dynamic premium calculation; additional insurer integrations beyond ABNIC; Raha with Alliance bundle.
+Phase 3 (Q3 2027):  Member-facing self-service portal; mobile application; automated renewal workflows.
+Phase 4 (TBD):      Corporate HR group plans; direct B2C online purchasing; Samaa Wallet payment integration.
+17. Risks & How We Will Handle Them
+Risk
+Likelihood
+Impact
+Mitigation Plan
+Raha API not ready on time
+Medium
+High
+Raha is an internal entity — escalate to Raha team at Sprint 0. Build a mock adapter to unblock development. Raha team should be treated as an internal dependency, not external vendor.
+ABNIC API changes scope during development
+Medium
+High
+Lock the API contract via a Memorandum of Understanding (MOU) before Sprint 6 begins. Include a formal change control clause in the integration agreement.
+Payment gateway does not support split routing
+Low
+High
+Validate split-payment capability in Sprint 0 proof of concept. Identify a secondary gateway (backup option) before Sprint 4 begins.
+WhatsApp template approval takes too long
+Medium
+Medium
+Submit template approval requests in Sprint 4 — in parallel with development, not after. Use email-only delivery as the launch fallback if templates are not approved in time.
+KYC field requirements change after development
+Low
+Medium
+Freeze the ABNIC KYC specification formally before Sprint 3 begins. Any changes after that follow a change control process with Sprint impact assessment.
+UAE data residency not met
+Low
+High
+Confirm UAE hosting region is provisioned and certified before Sprint 0 infrastructure setup. Legal team reviews at Sprint 0.
+Affiliate adoption lower than forecast
+Medium
+Medium
+Run a parallel pilot with 2-3 typing centres from Sprint 7 UAT. Use real clerks. Gather feedback before full rollout.
+Security vulnerability found in pen test
+Medium
+High
+Sprint 8 has a 2-week buffer allocated specifically for security remediation. No hard launch date is committed until penetration test is passed.
+Session expiry causes mid-transaction data loss
+Low
+Low
+Implement session extension warning (5-minute alert before expiry). Pre-submission KYC data preserved in local browser storage as backup.
+18. Glossary — Every Term Explained
+This glossary defines every technical and business term used in this document. If you encounter a term you do not understand, look it up here.
+Term
+Plain Language Definition
+ABNIC
+Abu Dhabi National Insurance Company. The insurance carrier that underwrites and issues insurance policies on Portal X. A real, regulated UAE insurance company.
+Affiliate
+Any licensed business or individual registered to sell products through Portal X. Includes typing centres, insurance brokers, and direct B2C individuals.
+API
+Application Programming Interface. A way for two software systems to communicate. Like a waiter taking your order to the kitchen and bringing back your food.
+Affinity Programme
+A bundled product that combines a loyalty card (Raha) with an embedded insurance policy (ABNIC). Members get both with one payment.
+B2B2C
+Business-to-Business-to-Consumer. A model where Portal X serves affiliates (typing centres) who then serve end customers (members).
+Bcrypt
+A method of storing passwords as an irreversible mathematical hash. Even if the database is breached, passwords cannot be recovered from bcrypt hashes.
+Blue-green deployment
+A production release strategy where the new version runs alongside the old version. Traffic shifts to the new version gradually. If anything goes wrong, traffic shifts back instantly.
+Callback / Webhook
+A message that an external system (e.g. ABNIC or the payment gateway) sends to Portal X to report the result of an action. Like a text message confirming your bank transfer.
+CI/CD
+Continuous Integration / Continuous Deployment. An automated pipeline that tests and deploys code automatically whenever a developer makes a change.
+Core / Pulse / Zenith
+The three plan tiers of the Raha affinity programme. Core is basic, Pulse is standard, Zenith is premium.
+Daman4Less
+The original name of the Raha programme before rebranding. A healthcare loyalty discount card for UAE residents that has evolved into the Raha embedded insurance + loyalty programme.
+Dead-letter Queue
+A holding area for messages (tasks) that have failed all retry attempts. An operator can inspect and manually resolve these rather than them being silently lost.
+Docker
+A technology that packages software and all its dependencies into a 'container' — a self-contained unit that runs the same way on any server.
+E-card
+A digital version of a loyalty card or insurance card — delivered by WhatsApp and email as an image or PDF. Functionally identical to a physical card.
+Emirates ID
+The UAE national identity card issued to all residents. A 15-digit number in format 784-YYYY-XXXXXXX-X. Required for insurance KYC in the UAE.
+Idempotency Key
+A unique code sent with API requests to ensure the external system only processes the request once, even if Portal X sends it multiple times due to retries.
+JWT
+JSON Web Token. A secure, self-contained token issued on login that proves a user is who they claim to be. Like an encrypted digital badge.
+KYC
+Know Your Customer. The process of verifying a customer's identity before issuing financial or insurance products. Required by UAE law.
+Kubernetes
+Software that manages containers (Docker) at scale — starting them, stopping them, scaling up when busy, and restarting them if they crash.
+Message Queue
+A system that holds 'tasks' to be processed in the background. Like a to-do list that multiple workers pick from. Prevents tasks from being lost if a service is temporarily unavailable.
+ORM
+Object-Relational Mapper. A tool (like Prisma) that lets developers interact with a database using their programming language instead of raw SQL queries.
+PCI-DSS
+Payment Card Industry Data Security Standard. An international security standard for organisations that handle credit/debit card payments. Portal X maintains SAQ-A scope.
+PDPL
+UAE Personal Data Protection Law. Federal Decree-Law No. 45 of 2021. Governs how personal data of UAE residents must be collected, stored, and processed.
+PostgreSQL
+An open-source, enterprise-grade relational database. Stores all Portal X data permanently and reliably. Chosen for its ACID compliance — meaning financial data is always consistent and correct.
+Prisma ORM
+The specific ORM tool used in Portal X and InnoCareX. Creates a shared database schema that both systems use, ensuring consistency across the platform group.
+Raha
+The rebranded name for Daman4Less. 'Raha' means comfort in Arabic. A loyalty + embedded insurance programme with three tiers: Core, Pulse, and Zenith.
+Redis
+An in-memory data store used for very fast temporary data — session tokens, duplicate transaction detection, and rate limiting counters.
+SAQ-A
+PCI-DSS Self-Assessment Questionnaire A. The simplest PCI scope — applies when an organisation fully outsources card data handling to a certified gateway and never touches card numbers.
+Session
+A temporary secure connection created after login that tracks who is using the system. Expires after 30 minutes of inactivity on Portal X.
+Split Payment
+A single customer payment that is automatically divided and sent to two different recipient accounts. On Portal X, one payment is split between Raha and ABNIC.
+Sub-User
+A counter clerk — an individual user within an affiliate organisation who can process transactions but can only see their own data.
+Super User
+A manager/administrator within an affiliate organisation. Can see all transactions from all sub-users in their organisation.
+TLS
+Transport Layer Security. The encryption standard for internet connections. TLS 1.2+ means data travelling between the browser and server is scrambled and cannot be read by a third party.
+Typing Centre
+UAE-based licensed service centres that provide document, visa, translation, and insurance services to residents. The primary distribution channel for Portal X.
+UAT
+User Acceptance Testing. A phase of testing where real users (not engineers) use the system to confirm it meets their needs before production launch.
+UUID
+Universally Unique Identifier. A randomly generated 32-character code used as a unique ID for records in the database. No two records will ever have the same UUID.
+WCAG 2.1 AA
+Web Content Accessibility Guidelines Level AA. An international standard ensuring websites are usable by people with disabilities including visual, motor, and cognitive impairments.
+WhatsApp Business API
+The official Meta (Facebook) API for businesses to send automated messages via WhatsApp. Requires pre-approved message templates. Used to deliver both e-cards to members.
+Portal X  ·  Business Requirements Document v2.0  ·  Confidential  ·  End of Document

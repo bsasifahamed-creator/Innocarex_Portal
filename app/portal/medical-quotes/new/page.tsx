@@ -4,6 +4,8 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import countries from "i18n-iso-countries";
 import en from "i18n-iso-countries/langs/en.json";
+import DocumentUploadPanel from "@/components/DocumentUploadPanel";
+import type { ExtractedData } from "@/lib/document-extractor";
 
 // Full country list (ISO 3166) for nationality dropdown.
 countries.registerLocale(en);
@@ -410,11 +412,138 @@ export default function NewMedicalQuotesPage() {
     }
   }
 
+  // Convert DD/MM/YYYY -> YYYY-MM-DD for HTML date input
+  function dobToInputFormat(ddmmyyyy: string): string {
+    if (!ddmmyyyy) return "";
+    const parts = ddmmyyyy.split("/");
+    if (parts.length !== 3) return "";
+    const [dd, mm, yyyy] = parts;
+    if (!dd || !mm || !yyyy) return "";
+    return `${yyyy}-${mm.padStart(2, "0")}-${dd.padStart(2, "0")}`;
+  }
+
+  // Infer residency city from visa file number prefix
+  function cityFromVisaPrefix(visaFileNo: string): (typeof residencyCities)[number] | null {
+    if (visaFileNo.startsWith("101/")) return "Abu Dhabi";
+    if (visaFileNo.startsWith("201/")) return "Dubai";
+    if (visaFileNo.startsWith("301/")) return "Sharjah";
+    if (visaFileNo.startsWith("401/")) return "Ajman";
+    if (visaFileNo.startsWith("501/")) return "Umm al Quwain";
+    if (visaFileNo.startsWith("601/")) return "Ras Al Khaimah";
+    if (visaFileNo.startsWith("701/")) return "Fujairah";
+    return null;
+  }
+
+  // Infer marital status from DOB string (YYYY-MM-DD or DD/MM/YYYY)
+  function inferMaritalStatus(dob: string): "Married" | "Single" {
+    if (!dob) return "Single";
+    const year = dob.includes("-") ? parseInt(dob.slice(0, 4)) : parseInt(dob.slice(6, 10));
+    return year < 1998 ? "Married" : "Single";
+  }
+
   function openDobCalendar() {
     const el = dobInputRef.current;
     if (!el) return;
     if (typeof el.showPicker === "function") el.showPicker();
     else el.focus();
+  }
+
+  function handleDocumentExtracted(extracted: Partial<ExtractedData>) {
+
+    // ── DETERMINE WHERE THE EID GOES BASED ON CURRENT STEP ──
+    // If on sponsor step: extracted EID → sponsor fields
+    // If on member step: extracted EID → member fields
+    const onSponsorStep = step === "sponsor";
+
+    // ── POLICY TYPE ──
+    if (
+      extracted.policy_type &&
+      (policyTypeOptions as readonly string[]).includes(extracted.policy_type)
+    ) {
+      setPolicyType(extracted.policy_type as typeof policyTypeOptions[number]);
+    }
+
+    // ── SPONSOR FIELDS ──
+    if (extracted.sponsor_name) setSponsorName(extracted.sponsor_name);
+    setSponsorEmail(extracted.sponsor_email || "ahlantypinguae@gmail.com");
+    if (extracted.sponsor_mobile) setSponsorMobile(extracted.sponsor_mobile);
+    if (extracted.trade_license_no) setTradeLicenseNo(extracted.trade_license_no);
+
+    if (onSponsorStep) {
+      // Any EID found → sponsor EID
+      const eid = extracted.sponsor_emirates_id || extracted.member_emirates_id;
+      if (eid) setSponsorEmiratesId(normalizeEmiratesId(eid));
+
+      // sponsor_name from extraction (eVisa employer field)
+      if (extracted.sponsor_name) {
+        setSponsorName(extracted.sponsor_name);
+      } else {
+        // Fall back to name fields (from EID or passport MRZ)
+        const parts = [
+          extracted.first_name,
+          extracted.middle_name,
+          extracted.last_name,
+        ].filter(Boolean);
+        if (parts.length > 0) setSponsorName(parts.join(" ").trim());
+      }
+
+      // Mobile if found
+      if (extracted.sponsor_mobile) setSponsorMobile(extracted.sponsor_mobile);
+
+    } else {
+      // MEMBER STEP — keep existing member logic unchanged
+      if (extracted.sponsor_emirates_id) {
+        setSponsorEmiratesId(normalizeEmiratesId(extracted.sponsor_emirates_id));
+      }
+      if (extracted.member_emirates_id) {
+        setMemberEmiratesId(normalizeEmiratesId(extracted.member_emirates_id));
+      }
+      if (extracted.first_name) setFirstName(extracted.first_name);
+      if (extracted.middle_name !== undefined) setMiddleName(extracted.middle_name);
+      if (extracted.last_name) setLastName(extracted.last_name);
+      if (extracted.dob) {
+        const parts = extracted.dob.split("/");
+        if (parts.length === 3) {
+          const [dd, mm, yyyy] = parts;
+          const inputDob = `${yyyy}-${mm.padStart(2, "0")}-${dd.padStart(2, "0")}`;
+          setDob(inputDob);
+          setMaritalStatus(parseInt(yyyy) < 1998 ? "Married" : "Single");
+        }
+      }
+      if (extracted.gender === "Male" || extracted.gender === "Female") {
+        setGender(extracted.gender);
+      }
+      if (extracted.nationality) setNationality(extracted.nationality);
+      if (extracted.unified_number) setUnifiedNumber(extracted.unified_number);
+      if (extracted.visa_file_no) {
+        const prefixMap: Record<string, typeof residencyCities[number]> = {
+          "101/": "Abu Dhabi",
+          "201/": "Dubai",
+          "301/": "Sharjah",
+          "401/": "Ajman",
+          "501/": "Umm al Quwain",
+          "601/": "Ras Al Khaimah",
+          "701/": "Fujairah",
+        };
+        for (const [prefix, city] of Object.entries(prefixMap)) {
+          if (extracted.visa_file_no.startsWith(prefix)) {
+            setResidencyVisaCity(city);
+            setVisaFileNoSuffix(extracted.visa_file_no.slice(prefix.length));
+            break;
+          }
+        }
+      }
+      if (extracted.occupation) setOccupation(extracted.occupation);
+      if (extracted.salary_category) setSalaryCategory(extracted.salary_category);
+      if (extracted.member_emirates_id && extracted.unified_number) {
+        setMemberCategory("Existing in UAE");
+      } else if (extracted.unified_number && !extracted.member_emirates_id) {
+        setMemberCategory("New to Country");
+      } else if (extracted.member_emirates_id && !extracted.unified_number) {
+        // EID OCR often doesn't provide UID; avoid blocking user with missing unified number.
+        setMemberCategory("UAE & GCC Nationals");
+      }
+    }
   }
 
   const expectedPrefix = visaPrefix(residencyVisaCity);
@@ -569,6 +698,8 @@ export default function NewMedicalQuotesPage() {
                   ) : null}
                 </div>
               </div>
+
+              <DocumentUploadPanel label="Upload Documents (passport, EID, visa, license)" onExtracted={handleDocumentExtracted} />
 
               <div className="flex justify-between">
                 <button type="button" onClick={() => setStep("product")} className="px-6 py-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/60 text-sm font-semibold text-slate-700 dark:text-slate-200 hover:bg-white dark:hover:bg-slate-900">
@@ -829,6 +960,8 @@ export default function NewMedicalQuotesPage() {
                   </div>
                 </div>
               </div>
+
+              <DocumentUploadPanel label="Upload Documents (passport, EID, visa, medical cert)" onExtracted={handleDocumentExtracted} />
 
               <div className="flex justify-between">
                 <button type="button" onClick={() => setStep("sponsor")} className="px-6 py-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/60 text-sm font-semibold text-slate-700 dark:text-slate-200 hover:bg-white dark:hover:bg-slate-900">

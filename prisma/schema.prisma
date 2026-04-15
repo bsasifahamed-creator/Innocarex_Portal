@@ -8,19 +8,16 @@ datasource db {
   provider = "postgresql"
 }
 
-enum UserRole {
-  ADMIN
-  BROKER
-  TYPING_STAFF
-  OPS
-  AFFILIATE
-}
-
 model User {
   id           String   @id @default(cuid())
   email        String   @unique
   passwordHash String
-  role         UserRole @default(BROKER)
+  role         UserRole @default(SUB_USER)
+  affiliateId      String?
+  affiliate        Affiliate?   @relation(fields: [affiliateId], references: [id])
+  failedLoginCount Int          @default(0)
+  lockedUntil      DateTime?
+  lastLoginAt      DateTime?
   isActive     Boolean  @default(true)
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
@@ -29,6 +26,7 @@ model User {
   policies  Policy[]
   documents DocumentAsset[]
   audits    AuditLog[]
+  transactions     Transaction[] @relation("UserTransactions")
 }
 
 model QuoteRequest {
@@ -106,4 +104,160 @@ model AuditLog {
 
   @@index([userId])
   @@index([createdAt])
+}
+
+enum AffiliateType {
+  TYPING_CENTRE
+  BROKER
+  B2C
+  CORPORATE
+}
+
+enum AffiliateStatus {
+  ACTIVE
+  SUSPENDED
+  TERMINATED
+}
+
+enum UserRole {
+  OPERATOR
+  SUPER_USER
+  SUB_USER
+}
+
+enum TierName {
+  CORE
+  PULSE
+  ZENITH
+}
+
+enum TransactionStatus {
+  PENDING_KYC
+  PENDING_PAYMENT
+  PAYMENT_CONFIRMED
+  RAHA_PROCESSING
+  ABNIC_PROCESSING
+  COMPLETE
+  FAILED
+  FLAGGED
+}
+
+enum CardType {
+  RAHA
+  ABNIC
+}
+
+enum DeliveryChannel {
+  WHATSAPP
+  EMAIL
+}
+
+enum DeliveryStatus {
+  PENDING
+  SENT
+  DELIVERED
+  FAILED
+  FALLBACK_TRIGGERED
+}
+
+model Affiliate {
+  id            String          @id @default(uuid())
+  code          String          @unique @db.VarChar(20)
+  name          String          @db.VarChar(200)
+  affiliateType AffiliateType
+  status        AffiliateStatus @default(ACTIVE)
+  config        Json?
+  createdAt     DateTime        @default(now())
+  users         User[]
+  transactions  Transaction[]
+  @@map("affiliates")
+}
+
+model AffinityBundle {
+  id          String         @id @default(uuid())
+  name        String         @unique
+  displayName String
+  isActive    Boolean        @default(true)
+  createdAt   DateTime       @default(now())
+  tiers       AffinityTier[]
+  @@map("affinity_bundles")
+}
+
+model AffinityTier {
+  id              String   @id @default(uuid())
+  bundleId        String
+  tierName        TierName
+  totalAmountAed  Decimal  @db.Decimal(10, 2)
+  rahaSplitAed    Decimal  @db.Decimal(10, 2)
+  insurerSplitAed Decimal  @db.Decimal(10, 2)
+  planCode        String
+  description     String?
+  benefits        Json?
+  isActive        Boolean  @default(true)
+  bundle          AffinityBundle @relation(fields: [bundleId], references: [id])
+  transactions    Transaction[]
+  @@unique([bundleId, tierName])
+  @@map("affinity_tiers")
+}
+
+model Transaction {
+  id              String            @id @default(uuid())
+  reference       String            @unique @db.VarChar(50)
+  userId          String
+  affiliateId     String
+  tierId          String?
+  programmeBundle String?
+  totalAmountAed  Decimal?          @db.Decimal(10, 2)
+  rahaSplitAed    Decimal?          @db.Decimal(10, 2)
+  insurerSplitAed Decimal?          @db.Decimal(10, 2)
+  status          TransactionStatus @default(PENDING_KYC)
+  gatewayRef      String?           @db.VarChar(100)
+  rahaMemberId    String?           @db.VarChar(100)
+  abnicPolicyId   String?           @db.VarChar(100)
+  rahaCardUrl     String?           @db.Text
+  abnicCardUrl    String?           @db.Text
+  retryCount      Int               @default(0)
+  flaggedReason   String?
+  createdAt       DateTime          @default(now())
+  completedAt     DateTime?
+  user            User              @relation("UserTransactions", fields: [userId], references: [id])
+  affiliate       Affiliate         @relation(fields: [affiliateId], references: [id])
+  tier            AffinityTier?     @relation(fields: [tierId], references: [id])
+  memberKyc       MemberKyc?
+  cardDeliveries  CardDeliveryLog[]
+  @@map("transactions")
+}
+
+model MemberKyc {
+  id            String    @id @default(uuid())
+  transactionId String    @unique
+  fullName      String    @db.VarChar(200)
+  whatsapp      String    @db.VarChar(30)
+  email         String    @db.VarChar(200)
+  dateOfBirth   DateTime
+  sponsorId     String    @db.VarChar(50)
+  emiratesId    String?   @db.VarChar(255)
+  doc1S3Key     String?   @db.VarChar(500)
+  doc2S3Key     String?   @db.VarChar(500)
+  doc3S3Key     String?   @db.VarChar(500)
+  doc4S3Key     String?   @db.VarChar(500)
+  purgedAt      DateTime?
+  createdAt     DateTime  @default(now())
+  transaction   Transaction @relation(fields: [transactionId], references: [id])
+  @@map("member_kyc")
+}
+
+model CardDeliveryLog {
+  id            String          @id @default(uuid())
+  transactionId String
+  cardType      CardType
+  channel       DeliveryChannel
+  status        DeliveryStatus  @default(PENDING)
+  attemptCount  Int             @default(0)
+  sentAt        DateTime?
+  confirmedAt   DateTime?
+  failureReason String?
+  createdAt     DateTime        @default(now())
+  transaction   Transaction     @relation(fields: [transactionId], references: [id])
+  @@map("card_delivery_logs")
 }
